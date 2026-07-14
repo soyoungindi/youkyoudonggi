@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>육휴동지</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #f0f0f8;
+      --bg-card:      #ffffff;
+      --bg-header:    #e8e8f4;
+      --text-p:       #1a1a30;
+      --text-s:       #4a4a70;
+      --text-m:       #9090a8;
+      --border:       #d5d5e8;
+      --accent:       #3d4ea8;
+      --accent-light: #dde0f8;
+      --accent-text:  #2d3a96;
+
+      --tag-obs:   #dde6f5; --tag-obs-t:  #1e4f8c;
+      --tag-feel:  #f7dded; --tag-feel-t: #8b2060;
+      --tag-need:  #ece0f5; --tag-need-t: #5a2a96;
+      --tag-act:   #d8f0e2; --tag-act-t:  #1a6640;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text-p);
+      min-height: 100vh;
+    }
+
+    /* ── 헤더 ── */
+    .hero {
+      background: var(--bg-header);
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.1rem;
+      letter-spacing: 0.04em;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 46px;
+      font-weight: 700;
+      color: var(--text-p);
+      line-height: 1.2;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--text-s);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    /* 통계 */
+    .stat-row {
+      display: inline-flex;
+      background: var(--bg-card);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .stat-cell {
+      padding: 1.1rem 2.2rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat-cell:last-child { border-right: none; }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-p);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: var(--text-m);
+    }
+
+    /* ── 탭 ── */
+    .tabs-outer {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tabs-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs-inner::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.85rem 1rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-s);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover { color: var(--text-p); }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-btn .tab-count {
+      background: var(--bg);
+      color: var(--text-m);
+      font-size: 11px;
+      font-weight: 400;
+      padding: 1px 7px;
+      border-radius: 10px;
+    }
+
+    .tab-btn.active .tab-count {
+      background: var(--accent-light);
+      color: var(--accent-text);
+    }
+
+    /* 드롭다운 */
+    .author-select {
+      height: 34px;
+      padding: 0 32px 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--bg-card);
+      color: var(--text-p);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239090a8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      align-self: center;
+      transition: border-color 0.15s;
+    }
+    .author-select:focus { border-color: var(--accent); }
+
+    /* 작성자 필터 행 */
+    .author-row {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 2rem 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .author-row:empty { display: none; }
+
+    .author-row-label {
+      font-size: 12px;
+      color: var(--text-m);
+      white-space: nowrap;
+    }
+
+    /* ── 그리드 ── */
+    .grid-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 2rem 5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 900px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px)  { .grid { grid-template-columns: 1fr; } }
+
+    /* ── 카드 ── */
+    .card {
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      height: 330px;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(42,33,24,0.10);
+    }
+
+    /* 카드 상단 라벨 */
+    .card-label {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent-text);
+      background: var(--accent-light);
+      border-radius: 6px;
+      padding: 3px 9px;
+      margin-bottom: 0.85rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* 필드 */
+    .card-fields {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 1.1rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-fields::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      background: linear-gradient(to bottom, transparent, var(--bg-card));
+      pointer-events: none;
+    }
+
+    .field-line {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .tag-obs  { background: var(--tag-obs);  color: var(--tag-obs-t); }
+    .tag-feel { background: var(--tag-feel); color: var(--tag-feel-t); }
+    .tag-need { background: var(--tag-need); color: var(--tag-need-t); }
+    .tag-act  { background: var(--tag-act);  color: var(--tag-act-t); }
+
+    .field-text {
+      font-size: 13px;
+      color: var(--text-p);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* 카드 하단 */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    .card-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      color: var(--accent-text);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-p);
+    }
+
+    .author-age {
+      font-size: 11px;
+      color: var(--text-m);
+    }
+
+    .card-like {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      color: var(--text-m);
+    }
+
+    .card-like.liked { color: #d64040; }
+    .like-icon { font-size: 15px; }
+
+    /* ── 모달 ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(42,33,24,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 88vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg-card);
+      border-radius: 18px 18px 0 0;
+      z-index: 1;
+    }
+
+    .modal-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-name { font-size: 14px; font-weight: 600; }
+    .modal-age  { font-size: 12px; color: var(--text-m); margin-top: 1px; }
+
+    .modal-date { font-size: 12px; color: var(--text-m); }
+
+    .modal-close {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-s);
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover { background: var(--border); }
+
+    .modal-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-field {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .modal-field .tag { font-size: 11px; padding: 3px 10px; margin-top: 1px; }
+
+    .modal-field-text {
+      font-size: 15px;
+      color: var(--text-p);
+      line-height: 1.75;
+    }
+
+    /* 모달 댓글 */
+    .modal-comments {
+      padding: 1.25rem 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .modal-comments-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-s);
+      margin-bottom: 1rem;
+    }
+
+    .comment-item {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      align-items: flex-start;
+    }
+
+    .comment-avatar {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--bg);
+      font-size: 11px; font-weight: 600;
+      color: var(--text-s);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .comment-bubble {
+      background: var(--bg);
+      border-radius: 0 10px 10px 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--text-p);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .comment-who {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-s);
+      margin-bottom: 3px;
+    }
+
+    .comment-input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .comment-input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text-p);
+      outline: none;
+    }
+
+    .comment-input:focus { border-color: var(--accent); }
+
+    .comment-submit {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 22px;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .comment-submit:hover { opacity: 0.88; }
+
+    /* 모달 좋아요 */
+    .modal-like-row {
+      padding: 0 1.5rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-like-btn {
+      display: flex; align-items: center; gap: 5px;
+      background: none; border: 1px solid var(--border);
+      border-radius: 22px; padding: 7px 16px;
+      font-family: inherit; font-size: 13px;
+      color: var(--text-s); cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .modal-like-btn:hover { background: var(--bg); }
+    .modal-like-btn.liked { color: #d64040; border-color: #f5c0c0; background: #fff5f5; }
+
+    /* ── 자기성찰노트 ── */
+    .reflect-wrap {
+      grid-column: 1/-1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 680px) { .reflect-wrap { grid-template-columns: 1fr; } }
+
+    .reflect-form {
+      grid-column: 1/-1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+    }
+
+    .reflect-form-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-p);
+      margin-bottom: 1.25rem;
+    }
+
+    .reflect-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .reflect-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .reflect-field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-s);
+      letter-spacing: 0.04em;
+    }
+
+    .reflect-input {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text-p);
+      outline: none;
+      line-height: 1.7;
+      resize: vertical;
+    }
+
+    .reflect-input:focus { border-color: var(--accent); }
+
+    .reflect-submit {
+      align-self: flex-end;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .reflect-submit:hover { opacity: 0.88; }
+
+    /* 성찰 카드 */
+    .reflect-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .reflect-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(42,33,24,0.10);
+    }
+
+    .reflect-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .reflect-card-date {
+      font-size: 12px;
+      color: var(--text-m);
+    }
+
+    .reflect-card-mood {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .reflect-section {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .reflect-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-m);
+    }
+
+    .reflect-section-text {
+      font-size: 13px;
+      color: var(--text-p);
+      line-height: 1.75;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .reflect-section-text.thanks {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── 독서 기록 폼 ── */
+    .book-form {
+      grid-column: 1/-1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+
+    .book-form-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-p);
+      margin-bottom: 1rem;
+    }
+
+    .book-form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .book-input {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text-p);
+      outline: none;
+    }
+
+    .book-input:focus { border-color: var(--accent); }
+
+    .book-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.7;
+    }
+
+    .book-submit {
+      align-self: flex-end;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .book-submit:hover { opacity: 0.88; }
+
+    /* 독서 기록 카드 */
+    .book-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .book-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(42,33,24,0.10);
+    }
+
+    .book-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-p);
+      line-height: 1.4;
+    }
+
+    .book-text {
+      font-size: 13px;
+      color: var(--text-s);
+      line-height: 1.75;
+      flex: 1;
+    }
+
+    .book-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-m);
+    }
+
+    /* 빈 화면 */
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 4rem;
+      color: var(--text-m);
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 32px; }
+      .stat-cell { padding: 0.9rem 1.3rem; }
+      .stat-num { font-size: 22px; }
+      .grid-wrap { padding: 1.25rem 1rem 4rem; }
+      .modal { border-radius: 14px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 히어로 -->
+  <section class="hero">
+    <span class="hero-badge">인디 공동육아클럽</span>
+    <h1>육휴동지 🌱</h1>
+    <p class="hero-sub">기록과 연습으로 더욱 단단해지는 육아</p>
+    <div class="stat-row">
+      <div class="stat-cell">
+        <span class="stat-num" id="stat-members">—</span>
+        <span class="stat-lbl">참여 동지</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num" id="stat-days">—</span>
+        <span class="stat-lbl">기록한 지 N일째</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num" id="stat-records">—</span>
+        <span class="stat-lbl">기록</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 탭 + 드롭다운 -->
+  <nav class="tabs-outer">
+    <div class="tabs-inner" id="tabs"></div>
+    <div class="author-row" id="author-row"></div>
+  </nav>
+
+  <!-- 그리드 -->
+  <div class="grid-wrap">
+    <div class="grid" id="grid">
+      <div class="empty">기록을 불러오는 중...</div>
+    </div>
+  </div>
+
+  <!-- 모달 -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <div class="modal-author">
+          <div class="avatar" id="m-avatar"></div>
+          <div>
+            <div class="modal-name" id="m-name"></div>
+            <div class="modal-age"  id="m-age"></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="modal-date" id="m-date"></span>
+          <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-body" id="m-body"></div>
+
+      <div class="modal-like-row">
+        <button class="modal-like-btn" id="m-like-btn" onclick="onModalLike()">
+          <span id="m-like-icon">♡</span>
+          <span id="m-like-count">0</span>
+        </button>
+      </div>
+
+      <div class="modal-comments">
+        <p class="modal-comments-title">동지들의 한마디</p>
+        <div id="m-comments"></div>
+        <div class="comment-input-row">
+          <input class="comment-input" id="m-comment-input" placeholder="한마디 남기기..."
+            onkeydown="if(event.key==='Enter')addModalComment()">
+          <button class="comment-submit" onclick="addModalComment()">남기기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // ⚙️ 설정
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // ★ Apps Script 웹앱 URL
+    const SCRIPT_URL         = 'https://script.google.com/macros/s/AKfycbzoh8qTVVPBIbgPtV_jg5Cs042Xr4lKvVubzAGNOPrtle8dSFrGZKqHb8lVyY7pW6xa/exec';
+    const REFLECT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7GhZLZRLd44S_aQDqQlSmBOW_EwxgOPBTRm_9-aOUKyyXeOqLHJWyKbtI9C9kYTffEg/exec';
+    const SECRET     = 'indischool2026'; // Apps Script와 동일한 토큰
+    const START_DATE = '2026-08-01';
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 샘플 데이터
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    const SAMPLE = [
+      {
+        type:'자녀관찰일지', time:'2026-07-06 21:30', name:'소영맘', age:'26개월',
+        obs: '저녁밥을 먹으라고 했더니 숟가락을 바닥에 던지고 "싫어!"를 외치며 의자에서 내려오려고 발버둥을 쳤다. 내가 다시 앉히려 하자 더 크게 울면서 밥상을 손으로 탁 쳤고, 반찬 몇 가지가 바닥에 쏟아졌다.',
+        feel:'순간 너무 당황스럽고 기가 막혔다. 하루 종일 힘들게 차린 밥상이 엉망이 되자 눈물이 날 것 같았고, 화가 올라오면서도 어떻게 해야 할지 몰라 멍하게 서 있었다.',
+        need:'아이가 조금이라도 내 마음을 알아줬으면 했다. 그리고 나 혼자만의 조용한 시간이 절실하게 필요했다. 누군가 그냥 "수고했어"라고 말해주기를 바랐다.',
+        act: '아이를 안전한 곳에 두고 욕실에 들어가 찬물로 손을 씻으며 2분 동안 숨을 고르기로 했다. 그리고 다시 나와서 아이에게 차분하게 "밥 다 식으면 같이 먹자"고 말했다.',
+        likes:7, comments:[
+          {name:'두부아빠', text:'저도 어제 똑같았어요. 숟가락 투척은 왜 이렇게 정조준인지 🥲'},
+          {name:'하늘맘',   text:'욕실 2분 작전... 저도 써먹어 볼게요!'}
+        ]
+      },
+      {
+        type:'자녀관찰일지', time:'2026-07-06 14:15', name:'두부아빠', age:'4살',
+        obs: '낮잠을 안 재우려고 2시간 버텼는데 결국 소파에서 잠들었다.',
+        feel:'허탈하면서도 귀여워서 웃음이 났다.',
+        need:'내가 잠이 고팠던 것 같다. 나도 좀 쉬어야 했다.',
+        act: '아이 옆에 나도 드러누워서 같이 자기로 했다. 집안일은 내일.',
+        likes:12, comments:[
+          {name:'소영맘', text:'이게 맞죠. 집안일은 항상 내일 ✊'}
+        ]
+      },
+      {
+        type:'자녀관찰일지', time:'2026-07-05 20:00', name:'하늘맘', age:'18개월',
+        obs: '오늘 처음으로 "엄마"라고 또렷하게 불렀다.',
+        feel:'눈물이 날 것 같았다. 이 육아가 다 의미 있다는 게 느껴졌다.',
+        need:'이 순간을 기억하고 싶었다. 나를 위해 남겨두고 싶었다.',
+        act: '아이 영상 하나 찍어두고, 오늘 하루 충분히 잘 했다고 나 자신에게 말해줬다.',
+        likes:18, comments:[]
+      },
+      {
+        type:'자녀관찰일지', time:'2026-07-05 09:10', name:'소영맘', age:'26개월',
+        obs: '아침부터 "안 해!" 를 스무 번은 들었다.',
+        feel:'지치고 약간 울고 싶었다.',
+        need:'누군가 나한테 "잘하고 있어"라고 말해주길 바랐다.',
+        act: '거울 보며 나한테 직접 말해줬다. "소영아, 잘하고 있어."',
+        likes:9, comments:[]
+      },
+      {
+        type:'자녀관찰일지', time:'2026-07-04 22:30', name:'두부아빠', age:'4살',
+        obs: '아이가 자다가 갑자기 울면서 깼고 두 시간 달랬다.',
+        feel:'피곤함과 안쓰러움이 동시에 밀려왔다.',
+        need:'잠이 필요했다. 그냥 푹 자고 싶었다.',
+        act: '내일 낮잠 시간에 나도 같이 자기로 미리 계획해뒀다.',
+        likes:6, comments:[
+          {name:'하늘맘', text:'야간육아 진짜 최고 난이도... 수고하셨어요 😭'}
+        ]
+      },
+      {
+        type:'자녀관찰일지', time:'2026-07-04 15:00', name:'하늘맘', age:'18개월',
+        obs: '놀이터에서 낯선 아이한테 장난감을 뺏겼는데 울지 않고 바라봤다.',
+        feel:'내 아이가 대견하고 든든했다.',
+        need:'이런 성장 순간을 놓치지 않고 싶었다.',
+        act: '집에 와서 같이 그림을 그리며 오늘 있었던 일을 이야기 나눴다.',
+        likes:14, comments:[]
+      }
+    ];
+
+    const REFLECT_SAMPLE = [
+      {
+        time:'2026-07-06 22:00', name:'소영맘',
+        mood:'피곤하지만 뿌듯함',
+        moment:'아이가 처음으로 스스로 신발을 신었다. 작은 일인데 왜 이렇게 울컥했는지.',
+        learn:'내가 기다려주면 아이도 해낼 수 있다는 걸 또 한 번 확인했다.',
+        worry:'내일 소아과 예약이 있는데 아이가 또 울면 어쩌지. 나도 지쳐있어서.',
+        thanks:'오늘 낮잠 시간에 나도 20분 잘 수 있었다.'
+      },
+      {
+        time:'2026-07-05 21:30', name:'두부아빠',
+        mood:'묘하게 평온한 하루',
+        moment:'아이랑 마트 갔다가 카트 타는 걸 너무 좋아해서 30분을 카트만 끌었다.',
+        learn:'놀이가 꼭 거창할 필요 없다. 카트도 아이한테는 놀이기구다.',
+        worry:'복직이 5개월 남았는데 적응할 수 있을지.',
+        thanks:'오늘 날씨가 딱 좋았다. 산책하기 완벽했다.'
+      },
+      {
+        time:'2026-07-04 23:00', name:'하늘맘',
+        mood:'지치고 허전한',
+        moment:'아이 재우고 나서 혼자 조용히 앉아있었는데, 그 고요함이 좋으면서도 외로웠다.',
+        learn:'나한테도 혼자만의 시간이 필요하다는 걸 이제야 인정하게 됐다.',
+        worry:'내가 좋은 엄마인지 모르겠다. 오늘 너무 많이 지쳐있었어서.',
+        thanks:'아이가 오늘 유독 많이 안겨줬다.'
+      }
+    ];
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 상태
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    let allRecords = [];
+    let reflectRecords = [];
+    let activeFilter = '자녀관찰일지';
+    let activeAuthor = 'all';
+    let activeModalIdx = null;
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 좋아요
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function getLike(id, base) {
+      const c = JSON.parse(localStorage.getItem('yh2_c')||'{}');
+      const l = JSON.parse(localStorage.getItem('yh2_l')||'{}');
+      return { count: c[id]??base, liked: !!l[id] };
+    }
+    function doLike(id, base) {
+      const c = JSON.parse(localStorage.getItem('yh2_c')||'{}');
+      const l = JSON.parse(localStorage.getItem('yh2_l')||'{}');
+      if (l[id]) { l[id]=false; c[id]=(c[id]??base)-1; }
+      else       { l[id]=true;  c[id]=(c[id]??base)+1; }
+      localStorage.setItem('yh2_c', JSON.stringify(c));
+      localStorage.setItem('yh2_l', JSON.stringify(l));
+      return { count: c[id], liked: l[id] };
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 자기성찰노트
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function renderReflectTab() {
+      const grid = document.getElementById('grid');
+
+      if (!reflectRecords.length) {
+        grid.innerHTML = `<div class="empty">
+          <div style="font-size:36px;margin-bottom:12px;">📝</div>
+          <div style="font-size:15px;font-weight:600;color:var(--text-s);margin-bottom:8px;">자기성찰노트 기록 없음</div>
+          <div>구글 시트가 연결되면 기록이 표시됩니다.</div>
+        </div>`;
+        return;
+      }
+
+      const filtered = activeAuthor === 'all'
+        ? reflectRecords
+        : reflectRecords.filter(r => r.name === activeAuthor);
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="empty">해당 동지의 기록이 없습니다.</div>';
+        return;
+      }
+
+      const cards = filtered.map(r => `
+        <div class="reflect-card">
+          <div class="card-label">자기성찰노트</div>
+          <div class="reflect-card-header">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="avatar">${r.name.slice(0,1)}</div>
+              <span style="font-size:13px;font-weight:600;color:var(--text-p);">${r.name}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              ${r.mood ? `<span class="reflect-card-mood">🌡 ${r.mood}</span>` : ''}
+              <span class="reflect-card-date">${fmtDate(r.time)}</span>
+            </div>
+          </div>
+          ${r.moment ? `<div class="reflect-section">
+            <div class="reflect-section-label">오늘의 순간</div>
+            <div class="reflect-section-text">${r.moment}</div>
+          </div>` : ''}
+          ${r.learn ? `<div class="reflect-section">
+            <div class="reflect-section-label">오늘의 배움과 성장</div>
+            <div class="reflect-section-text">${r.learn}</div>
+          </div>` : ''}
+          ${r.worry ? `<div class="reflect-section">
+            <div class="reflect-section-label">걱정주차장 🅿️</div>
+            <div class="reflect-section-text">${r.worry}</div>
+          </div>` : ''}
+          ${r.thanks ? `<div class="reflect-section">
+            <div class="reflect-section-label">감사한 줄 💛</div>
+            <div class="reflect-section-text thanks">${r.thanks}</div>
+          </div>` : ''}
+        </div>`).join('');
+
+      grid.innerHTML = `<div class="reflect-wrap">${cards}</div>`;
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 독서 기록
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function getBooks() {
+      return JSON.parse(localStorage.getItem('yh_books') || '[]');
+    }
+    function saveBooks(books) {
+      localStorage.setItem('yh_books', JSON.stringify(books));
+    }
+
+    function addBookRecord() {
+      const nickname = document.getElementById('book-nickname').value.trim() || '동지';
+      const title    = document.getElementById('book-title').value.trim();
+      const text     = document.getElementById('book-text').value.trim();
+      if (!title || !text) {
+        alert('책 제목과 소감을 모두 입력해주세요.');
+        return;
+      }
+      const now = new Date();
+      const time = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+      const books = getBooks();
+      books.unshift({ id: Date.now(), nickname, title, text, time });
+      saveBooks(books);
+      document.getElementById('book-nickname').value = '';
+      document.getElementById('book-title').value    = '';
+      document.getElementById('book-text').value     = '';
+      renderTabs();
+      renderGrid();
+    }
+
+    function renderBookTab() {
+      const books = getBooks();
+      const grid  = document.getElementById('grid');
+      const cards = books.length
+        ? books.map(b => `
+          <div class="book-card">
+            <div class="card-label">독서 기록</div>
+            <div class="book-title">📖 ${b.title}</div>
+            <div class="book-text">${b.text}</div>
+            <div class="book-footer">
+              <span>${b.nickname}</span>
+              <span>${b.time}</span>
+            </div>
+          </div>`).join('')
+        : `<div class="empty" style="grid-column:1/-1;padding-top:1rem;">
+            아직 기록이 없어요. 첫 번째 독서 기록을 남겨보세요! 📖
+          </div>`;
+
+      grid.innerHTML = `
+        <div class="book-form">
+          <div class="book-form-title">📚 독서 기록 남기기</div>
+          <div class="book-form-fields">
+            <input  class="book-input" id="book-nickname" placeholder="닉네임 (선택 — 비우면 동지로 표시)">
+            <input  class="book-input" id="book-title"    placeholder="책 제목 *"
+              onkeydown="if(event.key==='Enter')document.getElementById('book-text').focus()">
+            <textarea class="book-input book-textarea" id="book-text"
+              placeholder="한 줄 소감을 남겨주세요..."
+              onkeydown="if(event.key==='Enter'&&event.metaKey)addBookRecord()"></textarea>
+            <button class="book-submit" onclick="addBookRecord()">기록 남기기 ✊</button>
+          </div>
+        </div>
+        ${cards}`;
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // D-day
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function calcDays() {
+      const d = Math.floor((new Date()-new Date(START_DATE))/86400000);
+      return d>=0 ? d+1 : 0;
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 날짜
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function fmtDate(str) {
+      const d = new Date(str);
+      if (isNaN(d)) return str;
+      return `${d.getMonth()+1}.${String(d.getDate()).padStart(2,'0')}`;
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 탭 렌더
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function renderTabs() {
+      const tabsEl = document.getElementById('tabs');
+      const TABS = ['자녀관찰일지', '자기성찰노트', '독서 기록'];
+      const counts = {
+        '자녀관찰일지': allRecords.filter(r => (r.type||'자녀관찰일지') === '자녀관찰일지').length,
+        '자기성찰노트':     reflectRecords.length,
+        '독서 기록':    getBooks().length,
+      };
+      tabsEl.innerHTML = TABS.map(t => `
+        <button class="tab-btn ${t===activeFilter?'active':''}"
+          onclick="setFilter('${t}')">
+          ${t} <span class="tab-count">${counts[t]}</span>
+        </button>`).join('');
+    }
+
+    function setFilter(key) {
+      activeFilter = key;
+      activeAuthor = 'all';
+      renderTabs();
+      renderAuthorSelect();
+      renderGrid();
+    }
+
+    function setAuthor(name) {
+      activeAuthor = name;
+      renderGrid();
+    }
+
+    function renderAuthorSelect() {
+      const row = document.getElementById('author-row');
+      // 독서 기록 탭은 드롭다운 숨김
+      if (activeFilter === '독서 기록') { row.innerHTML = ''; return; }
+
+      const sourceRecords = activeFilter === '자기성찰노트'
+        ? reflectRecords
+        : allRecords.filter(r => (r.type||'자녀관찰일지') === '자녀관찰일지');
+
+      const names = [...new Set(sourceRecords.map(r => r.name))];
+
+      row.innerHTML = `
+        <span class="author-row-label">동지별 기록 보기</span>
+        <select class="author-select" onchange="setAuthor(this.value)">
+          <option value="all" ${activeAuthor==='all'?'selected':''}>전체 동지</option>
+          ${names.map(n => `<option value="${n}" ${activeAuthor===n?'selected':''}>${n}</option>`).join('')}
+        </select>`;
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 카드 렌더
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function renderGrid() {
+      if (activeFilter === '자기성찰노트')  { renderReflectTab(); return; }
+      if (activeFilter === '독서 기록') { renderBookTab(); return; }
+
+      const filtered = allRecords.filter(r =>
+        (r.type||'자녀관찰일지') === activeFilter &&
+        (activeAuthor === 'all' || r.name === activeAuthor)
+      );
+
+      const grid = document.getElementById('grid');
+      if (!filtered.length) {
+        if (activeFilter === '자기성찰노트') {
+          grid.innerHTML = `
+            <div class="empty">
+              <div style="font-size:36px;margin-bottom:12px;">📝</div>
+              <div style="font-size:15px;font-weight:600;color:var(--text-s);margin-bottom:8px;">자기성찰노트 준비 중</div>
+              <div>곧 자기성찰노트 코너가 열립니다.<br>조금만 기다려 주세요!</div>
+            </div>`;
+        } else {
+          grid.innerHTML = '<div class="empty">기록이 없습니다.</div>';
+        }
+        return;
+      }
+
+      grid.innerHTML = filtered.map((r, fi) => {
+        const globalIdx = allRecords.indexOf(r);
+        const id = `r${globalIdx}`;
+        const ls = getLike(id, r.likes||0);
+        return `
+        <div class="card" onclick="openModal(${globalIdx})">
+          <div class="card-label">${r.type || '자녀관찰일지'}</div>
+          <div class="card-fields">
+            <div class="field-line"><span class="tag tag-obs">관찰</span><span class="field-text">${r.obs}</span></div>
+            <div class="field-line"><span class="tag tag-feel">감정</span><span class="field-text">${r.feel}</span></div>
+            <div class="field-line"><span class="tag tag-need">욕구</span><span class="field-text">${r.need}</span></div>
+            <div class="field-line"><span class="tag tag-act">선택</span><span class="field-text">${r.act}</span></div>
+          </div>
+          <div class="card-footer">
+            <div class="card-author">
+              <div class="avatar">${r.name.slice(0,1)}</div>
+              <div>
+                <div class="author-name">${r.name}</div>
+                <div class="author-age">자녀 ${r.age}</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="card-like ${ls.liked?'liked':''}">
+                <span class="like-icon">${ls.liked?'♥':'♡'}</span>
+                <span>${ls.count}</span>
+              </div>
+              <div class="card-like">
+                <span style="font-size:13px;">💬</span>
+                <span>${(r.comments||[]).length}</span>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 모달
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    function openModal(idx) {
+      const r = allRecords[idx];
+      activeModalIdx = idx;
+      const id = `r${idx}`;
+      const ls = getLike(id, r.likes||0);
+
+      document.getElementById('m-avatar').textContent = r.name.slice(0,1);
+      document.getElementById('m-name').textContent   = r.name;
+      document.getElementById('m-age').textContent    = '자녀 ' + r.age;
+      document.getElementById('m-date').textContent   = fmtDate(r.time);
+
+      document.getElementById('m-body').innerHTML = `
+        <div class="modal-field"><span class="tag tag-obs">관찰</span><span class="modal-field-text">${r.obs}</span></div>
+        <div class="modal-field"><span class="tag tag-feel">감정</span><span class="modal-field-text">${r.feel}</span></div>
+        <div class="modal-field"><span class="tag tag-need">욕구</span><span class="modal-field-text">${r.need}</span></div>
+        <div class="modal-field"><span class="tag tag-act">선택</span><span class="modal-field-text">${r.act}</span></div>`;
+
+      const btn = document.getElementById('m-like-btn');
+      btn.className = 'modal-like-btn' + (ls.liked?' liked':'');
+      document.getElementById('m-like-icon').textContent  = ls.liked?'♥':'♡';
+      document.getElementById('m-like-count').textContent = ls.count;
+
+      document.getElementById('m-comments').innerHTML =
+        (r.comments||[]).map(c=>`
+          <div class="comment-item">
+            <div class="comment-avatar">동</div>
+            <div class="comment-bubble">
+              <div class="comment-who">동지</div>${c.text}
+            </div>
+          </div>`).join('');
+
+      document.getElementById('modal-overlay').classList.add('open');
+      document.getElementById('m-comment-input').value = '';
+    }
+
+    function closeModal(e) {
+      if (e.target===document.getElementById('modal-overlay'))
+        document.getElementById('modal-overlay').classList.remove('open');
+    }
+
+    function onModalLike() {
+      if (activeModalIdx===null) return;
+      const r = allRecords[activeModalIdx];
+      const id = `r${activeModalIdx}`;
+      const result = doLike(id, r.likes||0);
+      const btn = document.getElementById('m-like-btn');
+      btn.className = 'modal-like-btn' + (result.liked?' liked':'');
+      document.getElementById('m-like-icon').textContent  = result.liked?'♥':'♡';
+      document.getElementById('m-like-count').textContent = result.count;
+      renderGrid();
+    }
+
+    function addModalComment() {
+      const inp = document.getElementById('m-comment-input');
+      const txt = inp.value.trim();
+      if (!txt) return;
+      document.getElementById('m-comments').insertAdjacentHTML('beforeend', `
+        <div class="comment-item">
+          <div class="comment-avatar">동</div>
+          <div class="comment-bubble">
+            <div class="comment-who">동지</div>${txt}
+          </div>
+        </div>`);
+      inp.value = '';
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 로드
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    async function fetchScript(url) {
+      const res = await fetch(`${url}?token=${SECRET}`);
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      return data;
+    }
+
+    async function loadRecords() {
+      // 로딩 표시
+      document.getElementById('grid').innerHTML =
+        '<div class="empty">기록을 불러오는 중... 🌱</div>';
+
+      try {
+        const [obs, reflect] = await Promise.all([
+          fetchScript(SCRIPT_URL),
+          fetchScript(REFLECT_SCRIPT_URL)
+        ]);
+
+        allRecords     = obs.map(r => ({ ...r, type: '자녀관찰일지' }));
+        reflectRecords = reflect;
+
+      } catch (err) {
+        console.warn('시트 로드 실패, 샘플 데이터 사용:', err);
+        // 연결 실패 시 샘플 데이터로 폴백
+        allRecords     = SAMPLE;
+        reflectRecords = REFLECT_SAMPLE;
+      }
+
+      const members = [...new Set([
+        ...allRecords.map(r=>r.name),
+        ...reflectRecords.map(r=>r.name)
+      ])].length;
+      document.getElementById('stat-members').textContent = members + '명';
+      document.getElementById('stat-days').textContent    = calcDays() + '일째';
+      document.getElementById('stat-records').textContent =
+        (allRecords.length + reflectRecords.length) + '건';
+
+      renderTabs();
+      renderAuthorSelect();
+      renderGrid();
+    }
+
+    loadRecords();
+  </script>
+</body>
+</html>
