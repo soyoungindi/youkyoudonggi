@@ -93,13 +93,16 @@
       color: var(--text-p);
       display: block;
       line-height: 1;
-      margin-bottom: 4px;
+      margin-bottom: 0;
     }
 
     .stat-lbl {
       font-size: 11px;
       color: var(--text-m);
+      display: block;
+      margin-bottom: 4px;
     }
+
 
     /* ── 탭 ── */
     .tabs-outer {
@@ -806,21 +809,20 @@
 
   <!-- 히어로 -->
   <section class="hero">
-    <span class="hero-badge">인디 공동육아클럽</span>
     <h1>육휴동지 🌱</h1>
     <p class="hero-sub">기록과 연습으로 더욱 단단해지는 육아</p>
     <div class="stat-row">
       <div class="stat-cell">
-        <span class="stat-num" id="stat-members">—</span>
         <span class="stat-lbl">참여 동지</span>
+        <span class="stat-num" id="stat-members">—</span>
       </div>
       <div class="stat-cell">
+        <span class="stat-lbl">기록한 지</span>
         <span class="stat-num" id="stat-days">—</span>
-        <span class="stat-lbl">기록한 지 N일째</span>
       </div>
       <div class="stat-cell">
-        <span class="stat-num" id="stat-records">—</span>
         <span class="stat-lbl">기록</span>
+        <span class="stat-num" id="stat-records">—</span>
       </div>
     </div>
   </section>
@@ -881,8 +883,8 @@
     // ⚙️ 설정
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // ★ Apps Script 웹앱 URL
-    const SCRIPT_URL         = 'https://script.google.com/macros/s/AKfycbzoh8qTVVPBIbgPtV_jg5Cs042Xr4lKvVubzAGNOPrtle8dSFrGZKqHb8lVyY7pW6xa/exec';
-    const REFLECT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7GhZLZRLd44S_aQDqQlSmBOW_EwxgOPBTRm_9-aOUKyyXeOqLHJWyKbtI9C9kYTffEg/exec';
+    const SCRIPT_URL         = 'https://script.google.com/macros/s/AKfycbysBuGWZgyrpSvd_Atw2PlUxTZBsBcI4gLnxLzjGGZW-kl0-Md1OODVmN6-m_7Esrtg/exec';
+    const REFLECT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzBkyGcQkeG0ZJ_v_MHdHEDxWKYiOMPEoIpnePaHrLdzd5tqLgWWPprGboFnPqEcncD8A/exec';
     const SECRET     = 'indischool2026'; // Apps Script와 동일한 토큰
     const START_DATE = '2026-08-31';
 
@@ -967,7 +969,7 @@
             <div class="reflect-section-text">${r.plan}</div>
           </div>` : ''}
           ${r.highlight ? `<div class="reflect-section">
-            <div class="reflect-section-label">하이라이트 ✨</div>
+            <div class="reflect-section-label">오늘의 기록 ✨</div>
             <div class="reflect-section-text">${r.highlight}</div>
           </div>` : ''}
           ${r.worry ? `<div class="reflect-section">
